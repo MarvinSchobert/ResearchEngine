@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0yubdha" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.18.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <bpmn:process id="Bewertungsprozess_V1" name="Bewertungsprozess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1ss9t5i</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1ss9t5i" sourceRef="StartEvent_1" targetRef="Activity_1256t4y" />
+    <bpmn:endEvent id="Event_07wktx1">
+      <bpmn:incoming>Flow_0lqi6yt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_1256t4y" name="Formular anschauen und bewerten">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="marvin.schobert" candidateGroups="allUsers" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ss9t5i</bpmn:incoming>
+      <bpmn:outgoing>Flow_18szepx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_18szepx" sourceRef="Activity_1256t4y" targetRef="Gateway_1lyhbap" />
+    <bpmn:exclusiveGateway id="Gateway_1lyhbap" name="Status?">
+      <bpmn:incoming>Flow_18szepx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wkrkbw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0uutxvz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1wkrkbw" name="Ablehnung" sourceRef="Gateway_1lyhbap" targetRef="Activity_0cr34u9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=bewertung = "ablehnung"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0lqi6yt" sourceRef="Activity_0cr34u9" targetRef="Event_07wktx1" />
+    <bpmn:sequenceFlow id="Flow_0uutxvz" name="Zusage" sourceRef="Gateway_1lyhbap" targetRef="Activity_13mcfgm">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=bewertung = "Zusage"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0njpegc">
+      <bpmn:incoming>Flow_1ozwwcn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ozwwcn" sourceRef="Activity_13mcfgm" targetRef="Event_0njpegc" />
+    <bpmn:userTask id="Activity_13mcfgm" name="Zusage schreiben">
+      <bpmn:incoming>Flow_0uutxvz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ozwwcn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_0cr34u9" name="Ablehnung schreiben">
+      <bpmn:incoming>Flow_1wkrkbw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lqi6yt</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1v3bt8q">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="162" y="199" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lyhbap_di" bpmnElement="Gateway_1lyhbap" isMarkerVisible="true">
+        <dc:Bounds x="475" y="192" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="541" y="210" width="38" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0njpegc_di" bpmnElement="Event_0njpegc">
+        <dc:Bounds x="782" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07wktx1_di" bpmnElement="Event_07wktx1">
+        <dc:Bounds x="782" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y3hkqq_di" bpmnElement="Activity_1256t4y">
+        <dc:Bounds x="290" y="177" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rh1meo_di" bpmnElement="Activity_13mcfgm">
+        <dc:Bounds x="600" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0woyjhw_di" bpmnElement="Activity_0cr34u9">
+        <dc:Bounds x="600" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ss9t5i_di" bpmnElement="Flow_1ss9t5i">
+        <di:waypoint x="198" y="217" />
+        <di:waypoint x="290" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18szepx_di" bpmnElement="Flow_18szepx">
+        <di:waypoint x="390" y="217" />
+        <di:waypoint x="475" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wkrkbw_di" bpmnElement="Flow_1wkrkbw">
+        <di:waypoint x="500" y="192" />
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="600" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="503" y="153" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lqi6yt_di" bpmnElement="Flow_0lqi6yt">
+        <di:waypoint x="700" y="120" />
+        <di:waypoint x="782" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uutxvz_di" bpmnElement="Flow_0uutxvz">
+        <di:waypoint x="500" y="242" />
+        <di:waypoint x="500" y="310" />
+        <di:waypoint x="600" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="511" y="273" width="37" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ozwwcn_di" bpmnElement="Flow_1ozwwcn">
+        <di:waypoint x="700" y="310" />
+        <di:waypoint x="782" y="310" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
